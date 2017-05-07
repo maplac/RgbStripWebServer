@@ -1,0 +1,25 @@
+.red, .gre, .blu{
+margin: 10px;
+}
+.red{
+background: rgba(255,100,100,0.7);
+}
+.gre{
+background: rgba(100,255,100,0.7);
+}
+.blu{
+background: rgba(100,100,255,0.7);
+}
+input[type="range"]{
+width: 200px;
+}
+input[type="number"]{
+width: 45px;
+}
+.spa {
+display: inline-block;
+width: 100%;
+}
+.but{
+margin: 7px 0 7px 0;
+}

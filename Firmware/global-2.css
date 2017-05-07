@@ -1,0 +1,23 @@
+#content {
+    font-family:Verdana;
+	padding-left:270px;
+	padding-top:10px;
+}
+.selectedMenu {
+	background-color: #999;
+}
+#content button {
+	font-family:Verdana;
+	width: 150px;
+	height:40px;
+	background-color: #999;
+    font-size: 16px;
+	border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+	font-size: 16px;
+}
+#content button:hover:enabled {
+	background-color: #333;
+}

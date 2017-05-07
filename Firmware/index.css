@@ -1,0 +1,16 @@
+#content button {
+	font-family:Verdana;
+	width: 150px;
+	height:40px;
+	background-color: #999;
+	display: inline-block;
+    font-size: 16px;
+	border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+	font-size: 16px;
+}
+#content button:hover {
+	background-color: #333;
+}
