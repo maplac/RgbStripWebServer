@@ -1,4 +1,3 @@
-print("random_color.lua loaded")
 local buffer = nil
 local buffer1 = nil
 local buffer2 = nil
@@ -66,11 +65,14 @@ function randomColorStart()
 end
 
 function randomColorStop()
+        
     if timerPeriod ~= nil then
+        timerPeriod:stop()
         timerPeriod:unregister()
         timerPeriod = nil
     end
     if timerEffect ~= nil then
+        timerEffect:stop()
         timerEffect:unregister()
         timerEffect = nil
     end
