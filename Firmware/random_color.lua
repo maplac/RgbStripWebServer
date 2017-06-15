@@ -20,6 +20,7 @@ local isChangingBottom = true;
 local split = true
 function randomColorStart()
 
+    math.randomseed(tmr.now())
     --settings.randomColor.split = true
     bufferT = ws2812.newBuffer(numLed/2, 3)
     bufferB = ws2812.newBuffer(numLed, 3)
