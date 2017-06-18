@@ -2,7 +2,7 @@ r0={};r1={};
 g0={};g1={};
 b0={};b1={};
 sp={};pe={};
-su={};
+su={};sl={};
 window.onload=function(){
 document.getElementsByTagName('table')[0].innerHTML=html1;
 r0=document.getElementById('r0');
@@ -14,6 +14,7 @@ b1=document.getElementById('b1');
 sp=document.getElementById('sp');
 pe=document.getElementById('pe');
 su=document.getElementById('su');
+sl=document.getElementById('sl');
 r0.value=r[0];
 r1.value=r[1];
 g0.value=g[0];
@@ -22,4 +23,5 @@ b0.value=b[0];
 b1.value=b[1];
 sp.value=speed;
 pe.value=period;
+sl.checked=split;
 }

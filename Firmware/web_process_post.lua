@@ -53,7 +53,8 @@ function processPost(fileName, params)
         local b = {0,0}
         local speed = 0
         local period = 0
-        if (params ~= nil)then
+		local split = false
+        if (params ~= nil) then
             for k, v in string.gmatch(params, "(%w+)=(%w+)&*") do
                 --print(k..":"..v)
                 if (k == "r0") then
@@ -72,6 +73,8 @@ function processPost(fileName, params)
                     speed = v
                 elseif (k == "pe") then
                     period = v
+				elseif (k == "sl") then
+                    split = (v == "true")
                 else
                     isOk = false
                 end
@@ -86,6 +89,11 @@ function processPost(fileName, params)
             settings.randomColor.blueRange=b
             settings.randomColor.speed=speed
             settings.randomColor.period=period
+            --if asdf == "1" then
+			    settings.randomColor.split = split
+            --else
+                --settings.randomColor.split = false
+            --end
             settings.isOn = true
             changeEffect("randomColor")
             applySettings()

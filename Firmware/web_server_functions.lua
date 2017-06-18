@@ -58,7 +58,8 @@ function getDefaultValue(file)
         buf = buf.."r=["..settings.randomColor.redRange[1]..","..settings.randomColor.redRange[2].."];"
         buf = buf.."g=["..settings.randomColor.greenRange[1]..","..settings.randomColor.greenRange[2].."];"
         buf = buf.."b=["..settings.randomColor.blueRange[1]..","..settings.randomColor.blueRange[2].."];"
-        buf = buf.."period="..settings.randomColor.period..";speed="..settings.randomColor.speed..";\n"
+        buf = buf.."period="..settings.randomColor.period..";speed="..settings.randomColor.speed..";"
+		buf = buf.."split="..tostring(settings.randomColor.split)..";\n"
     end
     
     return buf

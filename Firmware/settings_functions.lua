@@ -38,6 +38,7 @@ function saveSettings()
     str = str.."redRange={"..settings.randomColor.redRange[1]..","..settings.randomColor.redRange[2].."},\n"
     str = str.."greenRange={"..settings.randomColor.greenRange[1]..","..settings.randomColor.greenRange[2].."},\n"
     str = str.."blueRange={"..settings.randomColor.blueRange[1]..","..settings.randomColor.blueRange[2].."},\n"
+	str = str.."split="..tostring(settings.randomColor.split)..",\n"
     str = str.."speed="..settings.randomColor.speed..",\n"
     str = str.."period="..settings.randomColor.period.."\n},\n"
     str = str.."secondButton={\n"
@@ -54,9 +55,10 @@ function saveSettings()
 end
 
 function applySettings()
+    
 
     randomColorStop()
-       
+
     if not settings.isOn then
         local buffer = ws2812.newBuffer(numLed, 3)
         buffer:fill(0,0,0)
@@ -78,6 +80,7 @@ function applySettings()
             ws2812.write(buffer)
         end
     end
+  
 end
 
 
