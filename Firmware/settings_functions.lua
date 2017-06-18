@@ -1,5 +1,5 @@
 numLed = 60
-numStaticColor = 5
+numStaticColor = 10
 
 dofile("random_color.lua")
 
@@ -26,7 +26,7 @@ function saveSettings()
     str = str.."staticColor={\n"
     str = str.."color={"..settings.staticColor.color[1]..","..settings.staticColor.color[2]..","..settings.staticColor.color[3].."},\n"
     str = str.."savedColors={"
-    for i=1,5 do
+    for i=1,numStaticColor do
         str = str.."{"
         for j=1,3 do
             str = str..settings.staticColor.savedColors[i][j]..","

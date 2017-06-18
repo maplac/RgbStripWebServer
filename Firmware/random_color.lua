@@ -1,4 +1,3 @@
-
 if timerPeriod ~= nil then
     timerPeriod:stop()
     timerPeriod:unregister()
@@ -64,7 +63,6 @@ function timerPeriodSlot()
     nr = math.random(settings.randomColor.redRange[1], settings.randomColor.redRange[2])
     ng = math.random(settings.randomColor.greenRange[1], settings.randomColor.greenRange[2])
     nb = math.random(settings.randomColor.blueRange[1], settings.randomColor.blueRange[2])
-    --print("next color: "..nr..", "..ng..", "..nb..", isChangingBottom="..tostring(isChangingBottom))
     collectgarbage()
     timerEffect:start()
 end
@@ -78,7 +76,6 @@ function timerEffectSlot()
         red = ((256-effectCounter) * br + effectCounter * nr) / 256
         gre = ((256-effectCounter) * bg + effectCounter * ng) / 256
         blu = ((256-effectCounter) * bb + effectCounter * nb) / 256
-        --print(bufferB)
         bufferB:fill(gre, red, blu)
         bufferT:fill(tg, tr, tb)
     else

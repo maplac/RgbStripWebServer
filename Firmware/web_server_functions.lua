@@ -1,5 +1,5 @@
 function getPageNotFound()
-    buf = [[
+    local buf = [[
     <!DOCTYPE html>
     <head>
     <meta charset="utf-8">
@@ -11,7 +11,7 @@ function getPageNotFound()
     return buf
 end
 function getHeader(connection, code, extension)
-    buf = "";
+   local buf = "";
    local function getHTTPStatusString(code)
       local codez = { [200] = "OK", [400] = "Bad Request", [404] = "Not Found", [500] = "Internal Server Error", }
       local myResult = codez[code]
@@ -37,19 +37,18 @@ function getDefaultValue(file)
     if (string.find(file, "%d+") == nil) then
         return buf
     end
-    fileNum = string.sub(file,string.find(file, "%d+"))
+    local fileNum = string.sub(file,string.find(file, "%d+"))
     if (fileNum ~= "1") then
         return buf
     end
-    fileName = string.sub(file, 1, string.find(file, "%d")-2)
-    --print(fileNum)
-    --print(fileName)
+    local fileName = string.sub(file, 1, string.find(file, "%d")-2)
+
     if fileName == "static-color" then
         buf = "c=["..settings.staticColor.color[1]..","..settings.staticColor.color[2]..","..settings.staticColor.color[3].."];\n"
         buf = buf.."C=["
-        for i = 1,5 do
+        for i = 1,numStaticColor do
             buf = buf.."["..settings.staticColor.savedColors[i][1]..","..settings.staticColor.savedColors[i][2]..","..settings.staticColor.savedColors[i][3].."]"
-            if i < 5 then
+            if i < numStaticColor then
                 buf = buf..","
             end
         end

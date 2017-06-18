@@ -1,12 +1,12 @@
 window.onload=function(){
 t=html1;
-for(var i=0;i<5;i++){
+for(var i=0;i<10;i++){
 t=t+'<span id="sp'+i+'"class="spa"><button class="but"id="but_'+i+'"onclick="clickedSave(this)">Save</button\
 ><button class="but"id="but_'+i+'"onclick="clickedLoad(this)">Load</button></span></br>';
 }
 t=t+'</div>';
 document.getElementById('content').innerHTML=t;
-for(var i=0;i<5;i++){
+for(var i=0;i<10;i++){
 document.getElementById('sp'+i).style.backgroundColor='rgb('+C[i][0]+','+C[i][1]+','+C[i][2]+')';
 }
 setRanges();
