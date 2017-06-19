@@ -18,7 +18,7 @@ end)
 
 function buttonDown()
     gpio.trig(button, "none")
-    debounceTimer:register(50, tmr.ALARM_SINGLE, function()
+    debounceTimer:register(10, tmr.ALARM_SINGLE, function()
         gpio.trig(button, "up", buttonUp)
     end)
     debounceTimer:start()
@@ -27,7 +27,7 @@ end
 
 function buttonUp()
     gpio.trig(button, "none")
-    debounceTimer:register(50, tmr.ALARM_SINGLE, function()
+    debounceTimer:register(10, tmr.ALARM_SINGLE, function()
         gpio.trig(button, "down", buttonDown)
     end)
     debounceTimer:start()
@@ -40,7 +40,7 @@ gpio.trig(button, "down", buttonDown)
 
 function buttonDown2()
     gpio.trig(button2, "none")
-    debounceTimer2:register(50, tmr.ALARM_SINGLE, function()
+    debounceTimer2:register(10, tmr.ALARM_SINGLE, function()
         gpio.trig(button2, "up", buttonUp2)
     end)
     debounceTimer2:start()
@@ -51,11 +51,12 @@ end
 
 function buttonUp2()
     gpio.trig(button2, "none")
-    debounceTimer2:register(50, tmr.ALARM_SINGLE, function()
+    debounceTimer2:register(10, tmr.ALARM_SINGLE, function()
         gpio.trig(button2, "down", buttonDown2)
     end)
     debounceTimer2:start()
     --print("up")
+    longPressTimer:stop()
     if not isLongPress then
         if settings.activeEffect == "secondButton" then
             local count = settings.secondButton.colorIndex + 1
@@ -65,6 +66,6 @@ function buttonUp2()
         applySettings()
         saveSettings()
     end
-    longPressTimer:stop()
+    
 end
 gpio.trig(button2, "down", buttonDown2)
