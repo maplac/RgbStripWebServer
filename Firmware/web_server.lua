@@ -29,15 +29,22 @@ srv:listen(80,function(conn)
             local bytesRemaining = file.list()[fileName]
             if (bytesRemaining ~= nil) and (fileExt ~= "lua") then
                 local fileHandle = file.open(fileName)
-                buf = buf .. getHeader(client,200,fileExt)
+                
                 if fileExt == "js" then
+                    if isFileCached(fileName) then 
+                        buf = buf .. getHeader(client,200,fileExt,true)
+                    else
+                        buf = buf .. getHeader(client,200,fileExt,false)
+                    end
                     buf = buf .. getDefaultValue(fileName)
+                else
+                    buf = buf .. getHeader(client,200,fileExt,true)
                 end
                 buf = buf .. fileHandle.read()
                 fileHandle:close()
             else
                 print("Page not found")
-                buf = buf .. getHeader(client,404,"html")
+                buf = buf .. getHeader(client,404,"html",false)
                 buf = buf .. getPageNotFound()
             end
             

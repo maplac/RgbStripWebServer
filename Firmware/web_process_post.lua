@@ -39,11 +39,11 @@ function processPost(fileName, params)
                 end
                 saveSettings()
             end
-            buf = buf .. getHeader(client,200,"json")
+            buf = buf .. getHeader(client,200,"json",false)
             buf = buf.. '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json")
+            buf = buf .. getHeader(client,400,"json",false)
             buf = buf ..'{"msg":"bad argument"}'
         end
     elseif (fileName == "randomColor.lua") then
@@ -98,11 +98,11 @@ function processPost(fileName, params)
             changeEffect("randomColor")
             applySettings()
             saveSettings()
-            buf = buf .. getHeader(client,200,"json")
+            buf = buf .. getHeader(client,200,"json",false)
             buf = buf.. '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json")
+            buf = buf .. getHeader(client,400,"json",false)
             buf = buf ..'{"msg":"bad argument"}'
         end
         
@@ -132,17 +132,17 @@ function processPost(fileName, params)
             settings.isOn = cmdTurnOn
             applySettings()
             saveSettings()
-            buf = buf .. getHeader(client,200,"json")
+            buf = buf .. getHeader(client,200,"json",false)
             buf = buf.. '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json")
+            buf = buf .. getHeader(client,400,"json",false)
             buf = buf ..'{"msg":"bad argument"}'
         end
         
     else
         print("Bad POST, file not found.")
-        buf = buf .. getHeader(client,400,"json")
+        buf = buf .. getHeader(client,400,"json",false)
         buf = buf .. '{"msg":"file not found"}'
     end
     return buf

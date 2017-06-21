@@ -10,7 +10,7 @@ function getPageNotFound()
     </html>]]
     return buf
 end
-function getHeader(connection, code, extension)
+function getHeader(connection, code, extension, cache)
    local buf = "";
    local function getHTTPStatusString(code)
       local codez = { [200] = "OK", [400] = "Bad Request", [404] = "Not Found", [500] = "Internal Server Error", }
@@ -24,14 +24,17 @@ function getHeader(connection, code, extension)
       if mt[ext] then return mt[ext] else return "text/plain" end
    end
 
-   buf = buf.."HTTP/1.0 " .. code .. " " .. getHTTPStatusString(code) .. "\r\n"
+   buf = buf.."HTTP/1.1 " .. code .. " " .. getHTTPStatusString(code) .. "\r\n"
    --buf = buf.."Server: nodemcu-httpserver\r\n"
    buf = buf.."Content-Type: " .. getMimeType(extension) .. "\r\n"
-   --connection:send("Cache-Control: private, max-age=2592000\r\n")
+   if cache then
+        buf = buf.."Cache-Control: public, max-age=31536000\r\n"
+   end
    --connection:send("Connection: close\r\n")
    buf = buf.."\r\n"
    return buf
 end
+
 function getDefaultValue(file)
     local buf = "";
     if (string.find(file, "%d+") == nil) then
@@ -42,7 +45,7 @@ function getDefaultValue(file)
         return buf
     end
     local fileName = string.sub(file, 1, string.find(file, "%d")-2)
-
+    
     if fileName == "static-color" then
         buf = "c=["..settings.staticColor.color[1]..","..settings.staticColor.color[2]..","..settings.staticColor.color[3].."];\n"
         buf = buf.."C=["
@@ -63,3 +66,15 @@ function getDefaultValue(file)
     
     return buf
 end
+
+function isFileCached(file)
+    if (string.find(file, "%d+") == nil) then
+        return true
+    end
+    local fileNum = string.sub(file,string.find(file, "%d+"))
+    if (fileNum ~= "1") then
+        return true
+    end
+    return false
+end
+
