@@ -1,5 +1,5 @@
-function processPost(fileName, params)
-    local buf = ""
+function processPostFunction(fileName, params)
+    local buf = {}
     if (fileName == "staticColor.lua") then
         local isOk = true
         local color = {0,0,0}
@@ -39,12 +39,12 @@ function processPost(fileName, params)
                 end
                 saveSettings()
             end
-            buf = buf .. getHeader(client,200,"json",false)
-            buf = buf.. '{"msg":"ok"}'
+            buf[#buf+1] = getHeader(client,200,"json",false)
+            buf[#buf+1] = '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json",false)
-            buf = buf ..'{"msg":"bad argument"}'
+            buf[#buf+1] = getHeader(client,400,"json",false)
+            buf[#buf+1] = '{"msg":"bad argument"}'
         end
     elseif (fileName == "randomColor.lua") then
         local isOk = true
@@ -53,7 +53,7 @@ function processPost(fileName, params)
         local b = {0,0}
         local speed = 0
         local period = 0
-		local split = false
+        local split = false
         if (params ~= nil) then
             for k, v in string.gmatch(params, "(%w+)=(%w+)&*") do
                 --print(k..":"..v)
@@ -73,7 +73,7 @@ function processPost(fileName, params)
                     speed = v
                 elseif (k == "pe") then
                     period = v
-				elseif (k == "sl") then
+                elseif (k == "sl") then
                     split = (v == "true")
                 else
                     isOk = false
@@ -90,7 +90,7 @@ function processPost(fileName, params)
             settings.randomColor.speed=speed
             settings.randomColor.period=period
             --if asdf == "1" then
-			    settings.randomColor.split = split
+                settings.randomColor.split = split
             --else
                 --settings.randomColor.split = false
             --end
@@ -98,12 +98,12 @@ function processPost(fileName, params)
             changeEffect("randomColor")
             applySettings()
             saveSettings()
-            buf = buf .. getHeader(client,200,"json",false)
-            buf = buf.. '{"msg":"ok"}'
+            buf[#buf+1] = getHeader(client,200,"json",false)
+            buf[#buf+1] = '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json",false)
-            buf = buf ..'{"msg":"bad argument"}'
+            buf[#buf+1] = getHeader(client,400,"json",false)
+            buf[#buf+1] = '{"msg":"bad argument"}'
         end
         
     elseif (fileName == "index.lua") then
@@ -132,18 +132,18 @@ function processPost(fileName, params)
             settings.isOn = cmdTurnOn
             applySettings()
             saveSettings()
-            buf = buf .. getHeader(client,200,"json",false)
-            buf = buf.. '{"msg":"ok"}'
+            buf[#buf+1] = getHeader(client,200,"json",false)
+            buf[#buf+1] = '{"msg":"ok"}'
         else
             print("Bad POST, wrong argument")
-            buf = buf .. getHeader(client,400,"json",false)
-            buf = buf ..'{"msg":"bad argument"}'
+            buf[#buf+1] = getHeader(client,400,"json",false)
+            buf[#buf+1] = '{"msg":"bad argument"}'
         end
         
     else
         print("Bad POST, file not found.")
-        buf = buf .. getHeader(client,400,"json",false)
-        buf = buf .. '{"msg":"file not found"}'
+        buf[#buf+1] = getHeader(client,400,"json",false)
+        buf[#buf+1] = '{"msg":"file not found"}'
     end
-    return buf
+    return table.concat(buf)
 end

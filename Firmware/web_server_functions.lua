@@ -1,5 +1,5 @@
 function getPageNotFound()
-    local buf = [[
+    return [[
     <!DOCTYPE html>
     <head>
     <meta charset="utf-8">
@@ -8,10 +8,10 @@ function getPageNotFound()
     <body>
     <h1>Page not found</h1>
     </html>]]
-    return buf
 end
+
 function getHeader(connection, code, extension, cache)
-   local buf = "";
+   local buf = {};
    local function getHTTPStatusString(code)
       local codez = { [200] = "OK", [400] = "Bad Request", [404] = "Not Found", [500] = "Internal Server Error", }
       local myResult = codez[code]
@@ -24,46 +24,21 @@ function getHeader(connection, code, extension, cache)
       if mt[ext] then return mt[ext] else return "text/plain" end
    end
 
-   buf = buf.."HTTP/1.1 " .. code .. " " .. getHTTPStatusString(code) .. "\r\n"
+   buf[#buf+1] = "HTTP/1.1 " .. code .. " " .. getHTTPStatusString(code) .. "\r\n"
    --buf = buf.."Server: nodemcu-httpserver\r\n"
-   buf = buf.."Content-Type: " .. getMimeType(extension) .. "\r\n"
+   buf[#buf+1] = "Content-Type: " .. getMimeType(extension) .. "\r\n"
    if cache then
-        buf = buf.."Cache-Control: public, max-age=31536000\r\n"
+        buf[#buf+1] = "Cache-Control: public, max-age=31536000\r\n"
    end
    --connection:send("Connection: close\r\n")
-   buf = buf.."\r\n"
-   return buf
+   buf[#buf+1] = "\r\n"
+   return table.concat(buf)
 end
 
 function getDefaultValue(file)
-    local buf = "";
-    if (string.find(file, "%d+") == nil) then
-        return buf
-    end
-    local fileNum = string.sub(file,string.find(file, "%d+"))
-    if (fileNum ~= "1") then
-        return buf
-    end
-    local fileName = string.sub(file, 1, string.find(file, "%d")-2)
-    
-    if fileName == "static-color" then
-        buf = "c=["..settings.staticColor.color[1]..","..settings.staticColor.color[2]..","..settings.staticColor.color[3].."];\n"
-        buf = buf.."C=["
-        for i = 1,numStaticColor do
-            buf = buf.."["..settings.staticColor.savedColors[i][1]..","..settings.staticColor.savedColors[i][2]..","..settings.staticColor.savedColors[i][3].."]"
-            if i < numStaticColor then
-                buf = buf..","
-            end
-        end
-        buf = buf.."];\n"
-    elseif fileName == "random-color" then
-        buf = buf.."r=["..settings.randomColor.redRange[1]..","..settings.randomColor.redRange[2].."];"
-        buf = buf.."g=["..settings.randomColor.greenRange[1]..","..settings.randomColor.greenRange[2].."];"
-        buf = buf.."b=["..settings.randomColor.blueRange[1]..","..settings.randomColor.blueRange[2].."];"
-        buf = buf.."period="..settings.randomColor.period..";speed="..settings.randomColor.speed..";"
-		buf = buf.."split="..tostring(settings.randomColor.split)..";\n"
-    end
-    
+    dofile("get_default_value_function.lc")
+    local buf = getDefaultValueFunction(file)
+    getDefaultValueFunction = nil
     return buf
 end
 

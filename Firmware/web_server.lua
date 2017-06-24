@@ -3,16 +3,15 @@ if not (srv == nil) then
     srv:close()
 end
 dofile("web_server_functions.lua")
-dofile("web_process_post.lua")
 srv=net.createServer(net.TCP,10)
 srv:listen(80,function(conn)
   conn:on("receive", function(client,request)
         collectgarbage()
-        print("pred: "..node.heap())
+        print("Heap before: "..node.heap())
         --print(request)
         gpio.write(ledBlue, 1)
         -- parse request
-        local buf = "";
+        local buf = {};
         local _, _, method, path, vars = string.find(request, "([A-Z]+) (.+)?(.+) HTTP");
         if(method == nil)then
             _, _, method, path = string.find(request, "([A-Z]+) (.+) HTTP");
@@ -32,20 +31,20 @@ srv:listen(80,function(conn)
                 
                 if fileExt == "js" then
                     if isFileCached(fileName) then 
-                        buf = buf .. getHeader(client,200,fileExt,true)
+                        buf[#buf+1] = getHeader(client,200,fileExt,true)
                     else
-                        buf = buf .. getHeader(client,200,fileExt,false)
+                        buf[#buf+1] = getHeader(client,200,fileExt,false)
                     end
-                    buf = buf .. getDefaultValue(fileName)
+                    buf[#buf+1] =  getDefaultValue(fileName)
                 else
-                    buf = buf .. getHeader(client,200,fileExt,true)
+                    buf[#buf+1] = getHeader(client,200,fileExt,true)
                 end
-                buf = buf .. fileHandle.read()
+                buf[#buf+1] = fileHandle.read()
                 fileHandle:close()
             else
                 print("Page not found")
-                buf = buf .. getHeader(client,404,"html",false)
-                buf = buf .. getPageNotFound()
+                buf[#buf+1] = getHeader(client,404,"html",false)
+                buf[#buf+1] = getPageNotFound()
             end
             
         elseif (method == "POST") then
@@ -53,15 +52,16 @@ srv:listen(80,function(conn)
             local vars = request:sub(bodyStart, #request)
             vars = string.gsub(vars, "%s+", "")
             print(method.. " "..path.." "..vars)
-            buf = buf .. processPost(fileName, vars)
+            dofile("process_post_function.lc")
+            buf[#buf+1] = processPostFunction(fileName, vars)
+            processPostFunction = nil
         end
-        client:send(buf)
+        client:send(table.concat(buf))
         client:close()
-        gpio.write(ledBlue, 0)
         buf = nil
-        print("po  : "..node.heap())
+        gpio.write(ledBlue, 0)
         collectgarbage()
-        print("za  : "..node.heap())
+        print("Heap after: "..node.heap())
     end)
 end)
 
