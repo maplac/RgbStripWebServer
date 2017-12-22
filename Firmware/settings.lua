@@ -3,13 +3,14 @@ previousEffect="staticColor",
 activeEffect="staticColor",
 isOn=true,
 staticColor={
-color={255,59,0},
-savedColors={{255,59,0,},{134,195,255,},{0,108,0,},{149,210,0,},{10,2,0,},}
+color={134,195,255},
+savedColors={{7,1,0,},{15,3,0,},{255,10,0,},{255,40,0,},{121,255,5,},{134,195,255,},{69,117,255,},{69,0,255,},{255,174,0,},{255,174,70,},}
 },
 randomColor={
 redRange={50,250},
 greenRange={50,200},
 blueRange={50,200},
+split=true,
 speed=80,
 period=5
 },
